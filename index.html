@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="lib/bootstrap.min.css"/>
+<body>
+
+<div ng-app="Filtermodule" ng-controller="FilterTable">
+<div class="container" ng-init="">
+
+<h2>users list</h2> 
+<div class="form-group">
+
+<div class="col-xs-3">
+    <label for="ex3">search by name:</label>
+    <input class="form-control" ng-model="searchval.name" type="text">
+</div>
+
+<!-- table for users list-->
+</div> 
+  <table class="table">
+    <thead>
+      <tr>
+        <th><a ng-click="orderByField='id'; reverseSort = !reverseSort">id <span ng-show="orderByField == 'id'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+          </a></th>
+	<th><a ng-click="orderByField='name'; reverseSort = !reverseSort">name <span ng-show="orderByField == 'name'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+          </a></th>
+        <th><a ng-click="orderByField='username'; reverseSort = !reverseSort">username <span ng-show="orderByField == 'username'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+          </a></th>
+	<th><a ng-click="orderByField='email'; reverseSort = !reverseSort">email <span ng-show="orderByField == 'email'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+          </a></th>
+	<th><a ng-click="orderByField='phone'; reverseSort = !reverseSort">phone <span ng-show="orderByField == 'phone'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+          </a></th>
+	<th><a ng-click="orderByField='website'; reverseSort = !reverseSort">website <span ng-show="orderByField == 'website'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+          </a></th>
+        <th>Add</th>
+	<th>Update</th>
+	<th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="x in usersdata | filter:searchval:exactmatch | orderBy:orderByField:reverseSort" ng-click = "rowclick(x)" style = "cursor:pointer">
+        <td><span style = "color:red">{{ x.id}}</span></td>
+        <td><span style = "color:red">{{ x.name}}</span></td>
+	<td><span style = "color:red">{{ x.username}}</span></td>
+        <td><span style = "color:red">{{ x.email}}</span></td>
+	<td><span style = "color:red">{{ x.phone}}</span></td>
+	<td><span style = "color:red">{{ x.website}}</span></td>
+	<td><button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary" ng-click="addclick()">Add</button></td>
+	<td><button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary" class="btn btn-primary" ng-click="updateclick(x)">Update</button></td>
+        <td><button type="button" ng-click="removeUser($index)" class="btn btn-primary">Delete</button></td>
+      </tr>
+      
+    </tbody>
+  </table>
+
+<!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">{{modelheader}}</h4>
+        </div>
+        <div class="modal-body">
+<div style="width: 100%;margin-left: auto;margin-right: auto;">
+<form class="form-horizontal">
+   
+
+
+	 <div class="form-group">
+      <label class="control-label col-sm-2">id:</label>
+      <div style="width:50%" class="col-sm-10">
+        <input type="text" class="form-control" id="proname" ng-model="id" placeholder="Enter id">
+      </div>
+    </div>
+
+
+
+   <div class="form-group">
+      <label class="control-label col-sm-2">name:</label>
+      <div style="width:50%" class="col-sm-10">
+        <input type="text" class="form-control" id="proowner" ng-model="name" placeholder="Enter name">
+      </div>
+    </div>
+
+
+   <div class="form-group">
+      <label class="control-label col-sm-2">username:</label>
+      <div style="width:50%" class="col-sm-10">
+        <input type="text" class="form-control" id="provender"  ng-model="username" placeholder="Enter username">
+      </div>
+    </div>
+
+
+   <div class="form-group">
+      <label class="control-label col-sm-2" for="email">email:</label>
+      <div style="width:50%" class="col-sm-10">
+        <input type="text" class="form-control" id="probudget" ng-model="email"  placeholder="Enter email">
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="control-label col-sm-2">phone no:</label>
+      <div style="width:50%" class="col-sm-10">
+        <input type="text" class="form-control" id="protime" placeholder="Enter phone no"  ng-model="phone">
+      </div>
+</div>
+	<div class="form-group">
+      <label class="control-label col-sm-2">website:</label>
+      <div style="width:50%" class="col-sm-10">
+        <input type="text" class="form-control" id="probudget" ng-model="website"  placeholder="Enter website">
+      </div>
+    </div>
+    
+
+
+ 
+
+
+
+
+    
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary"  ng-click="addUser()" ng-model = "updateref">{{buttonlabel}}</button>
+      </div>
+    </div>
+  </form>
+</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<br>
+<!-- panel -->
+<div class="panel panel-default">
+    <div class="panel-heading">User company info</div>
+    <div class="panel-body">
+	
+         
+        <div>name : <span style = "color:blue">{{compname}}</span></div>
+        <div>catchPhrase : <span style = "color:blue">{{compcatchPhrase}}</span></div>
+        <div>bs : <span style = "color:blue">{{compbs}}</span></div>
+  </div>
+</div>
+
+</div>
+
+<script src="lib/jquery-2.0.3.min.js"></script>
+<script src="lib/bootstrap.min.js"></script>
+<script src="lib/angular1.2.30_uncompressed.js"></script>
+<script src="js/controllers.js"></script>
+
+
+</body>
+</html>
+
